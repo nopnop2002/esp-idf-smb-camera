@@ -1,6 +1,7 @@
 # esp-idf-smb-camera
-Take a picture and Publish it via SMB
+Take a picture and Publish it via SMB.   
 You can access a picture using Windows shared folder.   
+This project use [ESP32 Camera Driver](https://github.com/espressif/esp32-camera).
 This project use [SMB2/3 userspace client](https://github.com/sahlberg/libsmb2).
 
 ![slide-0001](https://user-images.githubusercontent.com/6020549/119617916-454eb280-be3d-11eb-8ba4-d898780ed01d.jpg)
@@ -53,7 +54,7 @@ You can use static IP.
 
 
 
-## SMB Shared Setting
+## SMB Server Setting
 
 ![config-smb-1](https://user-images.githubusercontent.com/6020549/119619823-58fb1880-be3f-11eb-9176-6d6e28e874b4.jpg)
 
@@ -137,4 +138,5 @@ ESP32-CAM by AI-Thinker have flash light on GPIO4.
 
 ![config-flash](https://user-images.githubusercontent.com/6020549/99890190-0b3f0100-2ca0-11eb-94c6-ba7e2cfe1727.jpg)
 
-
+# Reference
+https://github.com/nopnop2002/esp-idf-smb-client

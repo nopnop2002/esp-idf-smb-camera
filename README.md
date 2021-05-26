@@ -56,6 +56,18 @@ You can use static IP.
 
 ## SMB Server Setting
 
+- CONFIG_ESP_SMB_USER   
+Username with shared folder permissions.
+- CONFIG_ESP_NEED_PASSWORD   
+Shared access requires password.
+- CONFIG_ESP_SMB_PASSWORD   
+Password of Username.
+- CONFIG_ESP_SMB_HOST   
+IP address of shared host.   
+__mDMS name cannot be used.__   
+- CONFIG_ESP_SMB_PATH   
+Shared path name.
+
 ![config-smb-1](https://user-images.githubusercontent.com/6020549/119619823-58fb1880-be3f-11eb-9176-6d6e28e874b4.jpg)
 
 When a password is required to access the shared folder.

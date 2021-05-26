@@ -1,0 +1,254 @@
+menu "Application Configuration"
+
+	menu "WiFi Setting"
+
+		config ESP_WIFI_SSID
+			string "WiFi SSID"
+			default "myssid"
+			help
+				SSID (network name) to connect to.
+
+		config ESP_WIFI_PASSWORD
+			string "WiFi Password"
+			default "mypassword"
+			help
+				WiFi password (WPA or WPA2) to connect to.
+
+		config ESP_MAXIMUM_RETRY
+			int "Maximum retry"
+			default 5
+			help
+				Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
+		config MDNS_HOSTNAME
+			string "mDNS Hostname"
+			default "esp32-camera"
+			help
+				The mDNS host name used by the ESP32.
+
+		config STATIC_IP
+			bool "Enable Static IP Address"
+			default false
+			help
+				Enable Static IP Address.
+
+		config STATIC_IP_ADDRESS
+			depends on STATIC_IP
+			string "Static IP Address"
+			default "192.168.10.100"
+			help
+				Static IP Address for Station.
+
+		config STATIC_GW_ADDRESS
+			depends on STATIC_IP
+			string "Static GW Address"
+			default "192.168.10.1"
+			help
+				Static GW Address for Station.
+
+		config STATIC_NM_ADDRESS
+			depends on STATIC_IP
+			string "Static Netmask"
+			default "255.255.255.0"
+			help
+				Static Netmask for Station.
+
+	endmenu
+
+	menu "SMB Server Setting"
+
+		config ESP_SMB_USER
+			string "SMB Username"
+			default "smbuser"
+			help
+				Username with shared folder permissions.
+
+		config ESP_NEED_PASSWORD
+			bool "Shared access requires password"
+			help
+				Shared access requires password
+
+		config ESP_SMB_PASSWORD
+			depends on ESP_NEED_PASSWORD
+			string "SMB password"
+			default "smbpass"
+			help
+				Password of Username.
+
+		config ESP_SMB_HOST
+			string "SMB Host"
+			default "192.168.10.10"
+			help
+				IP address of shared host.
+				mDMS name cannot be used.
+
+		config ESP_SMB_PATH
+			string "SMB shared path"
+			default "path"
+			help
+				Shared path name.
+
+	endmenu
+
+	menu "Attached File Name Setting"
+
+		choice REMOTE_FILE
+			bool "Select attached file name"
+			default REMOTE_IS_FIXED_NAME
+			help
+				Select attached file name.
+
+			config REMOTE_IS_FIXED_NAME
+				bool "Attached file name is fixed"
+			config REMOTE_IS_VARIABLE_NAME
+				bool "Attached file name is date and time"
+		endchoice
+
+		config FIXED_REMOTE_FILE
+			depends on REMOTE_IS_FIXED_NAME
+			string "Fixed-Attached file name"
+			default "picture.jpg"
+			help
+				Attached file name.
+
+		config NTP_SERVER
+			depends on REMOTE_IS_VARIABLE_NAME
+			string "NTP Server"
+			default "pool.ntp.org"
+			help
+				Hostname for NTP Server.
+
+		config LOCAL_TIMEZONE
+			depends on REMOTE_IS_VARIABLE_NAME
+			int "Your TimeZone"
+			range 0 23
+			default 0
+			help
+				Your local timezone.  When it is 0, Greenwich Mean Time.
+
+		config REMOTE_FRAMESIZE
+			bool "Add FrameSize to Remote file name"
+			default false
+			help
+				Add FrameSize to Remote file name.
+
+	endmenu
+
+	choice FRAMESIZE
+		bool "Select Frame Size"
+		default FRAMESIZE_VGA
+		help
+			Select Picture Frame Size.
+
+		config FRAMESIZE_VGA
+			bool "Frame Size:640x480"
+		config FRAMESIZE_SVGA
+			bool "Frame Size:800x600"
+		config FRAMESIZE_XGA
+			bool "Frame Size:1024x768"
+		config FRAMESIZE_HD
+			bool "Frame Size:1280x720"
+		config FRAMESIZE_SXGA
+			bool "Frame Size:1280x1024"
+		config FRAMESIZE_UXGA
+			bool "Frame Size:1600x1200"
+	endchoice
+
+	menu "Select Shutter"
+
+		choice SHUTTER_SELECT
+			bool "Select Shutter"
+			default SHUTTER_ENTER
+			help
+				Selecting the shutter method
+
+			config SHUTTER_ENTER
+				bool "Use Enter key"
+			config SHUTTER_GPIO
+				bool "Use GPIO"
+			config SHUTTER_TCP
+				bool "Use TCP Socket"
+			config SHUTTER_UDP
+				bool "Use UDP Socket"
+			config SHUTTER_HTTP
+				bool "Use HTTP Request"
+
+		endchoice
+
+		config GPIO_INPUT
+			int "Input GPIO number"
+			depends on SHUTTER_GPIO
+			range 4 34
+			default 15
+			help
+				GPIO number (IOxx) to Button Input.
+				Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to Button.
+
+		choice GPIO_INITIAL
+			prompt "GPIO Initial state"
+			depends on SHUTTER_GPIO
+			default GPIO_PULLDOWN
+			help
+				Select initial state of GPIO.
+
+			config GPIO_PULLUP
+				bool "GPIO_PULLUP"
+				help
+					The initial state of GPIO is Pull-UP.
+
+			config GPIO_PULLDOWN
+				bool "GPIO_PULLDOWN"
+				help
+					The initial state of GPIO is Pull-Down.
+
+		endchoice
+
+
+		config TCP_PORT
+			int "TCP Port"
+			depends on SHUTTER_TCP
+			range 0 65535
+			default 9876
+			help
+				Local port TCP server will listen on.
+
+		config UDP_PORT
+			int "UDP Port"
+			depends on SHUTTER_UDP
+			range 0 65535
+			default 9876
+			help
+				Local port UDP server will listen on.
+
+		config LOCAL_WEB_PORT
+			int "LOCAL WEB PORT"
+			depends on SHUTTER_HTTP
+			default 8080
+			help
+				Local port for WEB server.
+
+		config LOCAL_WEB_URL
+			string "LOCAL WEB URL"
+			depends on SHUTTER_HTTP
+			default "/take_picture"
+			help
+				local URL for WEB server.
+				Must start with /.
+
+	endmenu
+
+	config ENABLE_FLASH
+		bool "Enable Flash Light"
+		help
+			Enable Flash Light.
+
+	config GPIO_FLASH
+		int "Flash GPIO number"
+		depends on ENABLE_FLASH
+		range 4 34
+		default 4
+		help
+			GPIO number (IOxx) to Button Input.
+			Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to Button.
+
+endmenu

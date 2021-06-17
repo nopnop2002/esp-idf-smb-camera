@@ -93,8 +93,9 @@ When this is enabled, FrameSize is added to remote file name like this.
 
 ## Select Frame Size
 Large frame sizes take longer to take a picture.   
-![config-framesize-1](https://user-images.githubusercontent.com/6020549/118947689-8bfe6180-b992-11eb-8657-b4e86d3acc70.jpg)
-![config-framesize-2](https://user-images.githubusercontent.com/6020549/118947692-8d2f8e80-b992-11eb-9caa-1f6b6cb2210e.jpg)
+
+![config-framesize-1](https://user-images.githubusercontent.com/6020549/122480400-c0078980-d007-11eb-9e91-75b30dad065c.jpg)
+![config-framesize-2](https://user-images.githubusercontent.com/6020549/122480403-c0a02000-d007-11eb-9cd7-ee1a4250d120.jpg)
 
 ## Select Shutter
 
@@ -146,9 +147,9 @@ You can use this command.
 
 ## Flash Light
 
-ESP32-CAM by AI-Thinker have flash light on GPIO4.
+ESP32-CAM by AI-Thinker have flash light on GPIO4.   
 
-![config-flash](https://user-images.githubusercontent.com/6020549/99890190-0b3f0100-2ca0-11eb-94c6-ba7e2cfe1727.jpg)
+![config-flash](https://user-images.githubusercontent.com/6020549/122480398-bf6ef300-d007-11eb-929e-88a5b9aa994f.jpg)
 
 # Reference
 https://github.com/nopnop2002/esp-idf-smb-client

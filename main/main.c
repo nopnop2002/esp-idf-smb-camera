@@ -1,5 +1,5 @@
 /*
-   Take a picture and Publish it via HTTP Post.
+   Take a picture and Publish it via SMB Put.
 
    This code is in the Public Domain (or CC0 licensed, at your option.)
 
@@ -34,7 +34,7 @@
 #include "esp_camera.h"
 
 #include "cmd.h"
-
+#include "http.h"
 
 /* FreeRTOS event group to signal when we are connected*/
 static EventGroupHandle_t s_wifi_event_group;
@@ -51,6 +51,7 @@ QueueHandle_t xQueueCmd;
 QueueHandle_t xQueueSmtp;
 QueueHandle_t xQueueRequest;
 QueueHandle_t xQueueResponse;
+QueueHandle_t xQueueHttp;
 
 #define BOARD_ESP32CAM_AITHINKER
 
@@ -148,6 +149,14 @@ static esp_err_t init_camera(int framesize)
 
 static esp_err_t camera_capture(char * FileName, size_t *pictureSize)
 {
+	//clear internal queue
+	//for(int i=0;i<2;i++) {
+	for(int i=0;i<1;i++) {
+		camera_fb_t * fb = esp_camera_fb_get();
+		ESP_LOGI(TAG, "fb->len=%d", fb->len);
+		esp_camera_fb_return(fb);
+	}
+
 	//acquire a frame
 	camera_fb_t * fb = esp_camera_fb_get();
 	if (!fb) {
@@ -458,6 +467,8 @@ void udp_server(void *pvParameters);
 void web_server(void *pvParameters);
 #endif
 
+void http_task(void *pvParameters);
+
 void app_main(void)
 {
 	// Initialize NVS
@@ -508,11 +519,13 @@ void app_main(void)
 
 	/* Create Queue */
 	xQueueCmd = xQueueCreate( 1, sizeof(CMD_t) );
-	xQueueRequest = xQueueCreate( 1, sizeof(REQUEST_t) );
-	xQueueResponse = xQueueCreate( 1, sizeof(RESPONSE_t) );
 	configASSERT( xQueueCmd );
+	xQueueRequest = xQueueCreate( 1, sizeof(REQUEST_t) );
 	configASSERT( xQueueRequest );
+	xQueueResponse = xQueueCreate( 1, sizeof(RESPONSE_t) );
 	configASSERT( xQueueResponse );
+	xQueueHttp = xQueueCreate( 10, sizeof(HTTP_t) );
+	configASSERT( xQueueHttp );
 
 	/* Create SMB put Task */
 	xTaskCreate(&smb_put_task, "POST", 1024*8, NULL, 5, NULL);
@@ -543,6 +556,15 @@ void app_main(void)
 	xTaskCreate(web_server, "WEB", 1024*4, NULL, 2, NULL);
 #endif
 
+	/* Get the local IP address */
+	tcpip_adapter_ip_info_t ip_info;
+	ESP_ERROR_CHECK(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info));
+
+	/* Create HTTP Task */
+	char cparam0[64];
+	sprintf(cparam0, "%s", ip4addr_ntoa(&ip_info.ip));
+	xTaskCreate(http_task, "HTTP", 1024*6, (void *)cparam0, 2, NULL);
+
 #if CONFIG_FRAMESIZE_VGA
 	int framesize = FRAMESIZE_VGA;
 	#define FRAMESIZE_STRING "640x480"
@@ -563,7 +585,10 @@ void app_main(void)
 	#define FRAMESIZE_STRING "1600x1200"
 #endif
 
-	init_camera(framesize);
+	ret = init_camera(framesize);
+	if (ret != ESP_OK) {
+		while(1) { vTaskDelay(1); }
+	}
 
 	REQUEST_t requestBuf;
 	RESPONSE_t responseBuf;
@@ -581,6 +606,10 @@ void app_main(void)
 	ESP_LOGI(TAG, "remoteFileName=%s",requestBuf.remoteFileName);
 #endif
 
+	HTTP_t httpBuf;
+	httpBuf.taskHandle = xTaskGetCurrentTaskHandle();
+	strcpy(httpBuf.localFileName, requestBuf.localFileName);
+
 	CMD_t cmdBuf;
 
 	while(1) {
@@ -594,6 +623,7 @@ void app_main(void)
 		if (stat(requestBuf.localFileName, &statBuf) == 0) {
 			// Delete it if it exists
 			unlink(requestBuf.localFileName);
+			ESP_LOGI(TAG, "Delete Local file");
 		}
 
 #if CONFIG_REMOTE_IS_VARIABLE_NAME
@@ -653,8 +683,10 @@ void app_main(void)
 		} else {
 			xQueueReceive(xQueueResponse, &responseBuf, portMAX_DELAY);
 			ESP_LOGI(TAG, "put to %s", responseBuf.response);
+			if (xQueueSend(xQueueHttp, &httpBuf, 10) != pdPASS) {
+				ESP_LOGE(TAG, "xQueueSend xQueueHttp fail");
+			}
 		}
-		unlink(requestBuf.localFileName);
 
 	} // end while	
 

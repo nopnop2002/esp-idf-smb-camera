@@ -8,8 +8,9 @@ This project use [SMB2/3 userspace client](https://github.com/sahlberg/libsmb2).
 ![slide-0002](https://user-images.githubusercontent.com/6020549/119617924-45e74900-be3d-11eb-83ae-03dd86cfd407.jpg)
 
 # Software requirements
-esp-idf v4.4 or later.   
-The mDNS strict mode [issue](https://github.com/espressif/esp-idf/issues/6190) has been resolved.   
+esp-idf v4.3 or later.   
+When using v4.3, you need to solve [this](https://github.com/espressif/esp-idf/issues/6190) manually.   
+When using v4.4, setting CONFIG_MDNS_STRICT_MODE = y in sdkconfig.defaults sets MDNS_STRICT_MODE to 1.   
 
 # Installation
 Use a USB-TTL converter.   
@@ -31,6 +32,18 @@ git clone https://github.com/sahlberg/libsmb2 components/libsmb2
 idf.py set-target esp32
 idf.py menuconfig
 idf.py flash monitor
+```
+
+# Installation for esp-idf v4.4 or later.   
+MD5Init --> esp_rom_md5_init   
+MD5Update --> esp_rom_md5_update   
+MD5Final --> esp_rom_md5_final   
+
+Therefore, it is necessary to add the following to the end of components/libsmb2/include/esp/config.h.   
+```
+#define MD5Init esp_rom_md5_init
+#define MD5Update esp_rom_md5_update
+#define MD5Final esp_rom_md5_final
 ```
 
 # Start firmware

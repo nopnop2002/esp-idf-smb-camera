@@ -35,6 +35,7 @@ idf.py flash monitor
 ```
 
 # Installation for esp-idf v4.4 or later.   
+The following function names have changed in esp-idf v4.4:   
 MD5Init --> esp_rom_md5_init   
 MD5Update --> esp_rom_md5_update   
 MD5Final --> esp_rom_md5_final   

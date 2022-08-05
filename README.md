@@ -22,6 +22,7 @@ Use a USB-TTL converter.
 |GND|GND|
 
 
+# Installation for esp-idf v4.4.   
 ```
 git clone https://github.com/nopnop2002/esp-idf-smb-camera
 cd esp-idf-smb-camera
@@ -32,17 +33,26 @@ idf.py menuconfig
 idf.py flash monitor
 ```
 
-# Installation for esp-idf v4.4 or later.   
-The following function names have changed in esp-idf v4.4:   
-MD5Init --> esp_rom_md5_init   
-MD5Update --> esp_rom_md5_update   
-MD5Final --> esp_rom_md5_final   
 
-Therefore, it is necessary to add the following to the end of components/libsmb2/include/esp/config.h.   
+# Installation for esp-idf v5.0.   
 ```
-#define MD5Init esp_rom_md5_init
-#define MD5Update esp_rom_md5_update
-#define MD5Final esp_rom_md5_final
+git clone https://github.com/nopnop2002/esp-idf-smb-camera
+cd esp-idf-smb-camera
+git clone https://github.com/espressif/esp32-camera components/esp32-camera
+git clone https://github.com/sahlberg/libsmb2 components/libsmb2
+vi components/libsmb2/lib/smb3-seal.c
+
+---------------------------------------------------------------
+#ifdef ESP_PLATFORM
+#include <esp_system.h>
+#include <sys/types.h>
+//#define random esp_random ---> Remove this
+#endif
+---------------------------------------------------------------
+
+idf.py set-target esp32
+idf.py menuconfig
+idf.py flash monitor
 ```
 
 # Start firmware
@@ -78,10 +88,9 @@ Username with shared folder permissions.
 - CONFIG_ESP_NEED_PASSWORD   
 Shared access requires password.
 - CONFIG_ESP_SMB_PASSWORD   
-Password of Username.
+Password with shared folder permissions.
 - CONFIG_ESP_SMB_HOST   
-IP address of shared host.   
-__mDMS name cannot be used.__   
+IP address or mDNS host name of shared host.   
 - CONFIG_ESP_SMB_PATH   
 Shared path name.
 
@@ -144,19 +153,20 @@ I confirmed that the following GPIO can be used.
 ![config-shutter-2](https://user-images.githubusercontent.com/6020549/99897437-d2714d00-2cdc-11eb-8e59-c8bf4ef25d62.jpg)
 
 - Shutter is TCP Socket   
-You can use tcp_send.py.   
-`python ./tcp_send.py`
+You can use tcp_send.py as shutter.   
+`python3 ./tcp_send.py`
 
 ![config-shutter-3](https://user-images.githubusercontent.com/6020549/99890070-dc745b00-2c9e-11eb-9ae8-45ac11db5db5.jpg)
 
 - Shutter is UDP Socket   
-You can use udp_send.py.   
-`python ./udp_send.py`
+You can use udp_send.py as shutter.   
+Requires netifaces.   
+`python3 ./udp_send.py`
 
 ![config-shutter-4](https://user-images.githubusercontent.com/6020549/99889941-658a9280-2c9d-11eb-8bc7-06f2b67af3cb.jpg)
 
 - Shutter is HTTP Request   
-You can use this command.   
+You can use this command as shutter.   
 `curl "http://esp32-camera.local:8080/take_picture"`
 
 ![config-shutter-5](https://user-images.githubusercontent.com/6020549/99889881-b6e65200-2c9c-11eb-96c2-6fdde929dbe0.jpg)

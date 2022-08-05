@@ -77,7 +77,7 @@ menu "Application Configuration"
 
 		config ESP_SMB_HOST
 			string "SMB Host"
-			default "192.168.10.10"
+			default "smbhost.local"
 			help
 				IP address of shared host.
 				mDMS name cannot be used.

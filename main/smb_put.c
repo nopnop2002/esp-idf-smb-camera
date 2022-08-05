@@ -30,7 +30,7 @@ static const char *TAG = "SMB";
 
 void smb_put_task(void *pvParameter)
 {
-	ESP_LOGI(TAG, "smb_post start");
+	ESP_LOGI(TAG, "smb_put start");
 
 	struct smb2_context *smb2;
 	struct smb2_url *url;

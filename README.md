@@ -94,11 +94,10 @@ IP address or mDNS host name of shared host.
 - CONFIG_ESP_SMB_PATH   
 Shared path name.
 
-![config-smb-1](https://user-images.githubusercontent.com/6020549/119619823-58fb1880-be3f-11eb-9176-6d6e28e874b4.jpg)
+![config-smb-1](https://user-images.githubusercontent.com/6020549/183030948-2e077e33-7cc6-414f-8f3c-69c29f2dab80.jpg)
 
 When a password is required to access the shared folder.
-![config-smb-2](https://user-images.githubusercontent.com/6020549/119619913-6f08d900-be3f-11eb-9ea1-3a8ac966ed19.jpg)
-
+![config-smb-2](https://user-images.githubusercontent.com/6020549/183030955-4dccc112-beaf-43a0-ae43-ccc797a911fa.jpg)
 
 ## File Name Setting
 

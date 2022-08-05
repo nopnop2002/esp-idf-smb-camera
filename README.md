@@ -178,10 +178,13 @@ ESP32-CAM by AI-Thinker have flash light on GPIO4.
 ![config-flash](https://user-images.githubusercontent.com/6020549/122480398-bf6ef300-d007-11eb-929e-88a5b9aa994f.jpg)
 
 # Built-in WEB Server
-You can check the photos taken using the built-in WEB server.   
+You can check the pictures taken using the built-in WEB server.   
 Enter the ESP32's IP address and port number in the address bar of your browser.   
 
 ![browser](https://user-images.githubusercontent.com/6020549/124227364-837a7880-db45-11eb-9d8b-fa15c676adac.jpg)
+
+__This feature is not available when Shutter is an HTTP request.__   
+Because it is not possible to start two HTTP servers.   
 
 # Reference
 https://github.com/nopnop2002/esp-idf-smb-client

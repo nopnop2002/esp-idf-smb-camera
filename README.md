@@ -129,7 +129,7 @@ You can choose one of the following shutter methods
 - Shutter is the Enter key on the keyboard   
 For operation check
 
-![config-shutter-1](https://user-images.githubusercontent.com/6020549/99890068-db432e00-2c9e-11eb-84e2-4e6c5f05fb7a.jpg)
+![config-shutter-1](https://user-images.githubusercontent.com/6020549/193154988-0de5f305-7bdb-4d05-8a74-8760b39a0161.jpg)
 
 - Shutter is a GPIO toggle   
 
@@ -149,27 +149,26 @@ I confirmed that the following GPIO can be used.
 |GPIO15|OK|OK|
 |GPIO16|NG|NG|
 
-![config-shutter-2](https://user-images.githubusercontent.com/6020549/99897437-d2714d00-2cdc-11eb-8e59-c8bf4ef25d62.jpg)
+![config-shutter-2](https://user-images.githubusercontent.com/6020549/193154991-1271a408-2ac4-43ef-a7f4-482cf51985ee.jpg)
 
 - Shutter is TCP Socket   
 You can use tcp_send.py as shutter.   
 `python3 ./tcp_send.py`
 
-![config-shutter-3](https://user-images.githubusercontent.com/6020549/99890070-dc745b00-2c9e-11eb-9ae8-45ac11db5db5.jpg)
+![config-shutter-3](https://user-images.githubusercontent.com/6020549/193154992-624e8ed6-1208-4f05-bfa8-e54576ec1780.jpg)
 
 - Shutter is UDP Socket   
 You can use udp_send.py as shutter.   
 Requires netifaces.   
 `python3 ./udp_send.py`
 
-![config-shutter-4](https://user-images.githubusercontent.com/6020549/99889941-658a9280-2c9d-11eb-8bc7-06f2b67af3cb.jpg)
+![config-shutter-4](https://user-images.githubusercontent.com/6020549/193154994-27c07cf5-76f5-4829-a8ed-899541fcef48.jpg)
 
 - Shutter is HTTP Request   
 You can use this command as shutter.   
-`curl "http://esp32-camera.local:8080/take_picture"`
+`curl "http://esp32-camera.local:8080/take/picture"`
 
-![config-shutter-5](https://user-images.githubusercontent.com/6020549/99889881-b6e65200-2c9c-11eb-96c2-6fdde929dbe0.jpg)
-
+![config-shutter-5](https://user-images.githubusercontent.com/6020549/193154996-4d783d74-6e24-482a-9ebc-681bc40cf570.jpg)
 
 ## Flash Light
 
@@ -182,9 +181,6 @@ You can check the pictures taken using the built-in WEB server.
 Enter the ESP32's IP address and port number in the address bar of your browser.   
 
 ![browser](https://user-images.githubusercontent.com/6020549/124227364-837a7880-db45-11eb-9d8b-fa15c676adac.jpg)
-
-__This feature is not available when Shutter is an HTTP request.__   
-Because it is not possible to start two HTTP servers.   
 
 # Reference
 https://github.com/nopnop2002/esp-idf-smb-client

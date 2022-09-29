@@ -34,7 +34,6 @@
 #include "esp_camera.h"
 
 #include "cmd.h"
-#include "http.h"
 
 /* FreeRTOS event group to signal when we are connected*/
 static EventGroupHandle_t s_wifi_event_group;
@@ -393,10 +392,6 @@ void tcp_server(void *pvParameters);
 void udp_server(void *pvParameters);
 #endif
 
-#if CONFIG_SHUTTER_HTTP
-void web_server(void *pvParameters);
-#endif
-
 void http_task(void *pvParameters);
 
 void app_main(void)
@@ -484,7 +479,6 @@ void app_main(void)
 
 #if CONFIG_SHUTTER_HTTP
 #define SHUTTER "HTTP Request"
-	xTaskCreate(web_server, "WEB", 1024*4, NULL, 2, NULL);
 #endif
 
 	/* Get the local IP address */
@@ -493,14 +487,11 @@ void app_main(void)
 	esp_netif_ip_info_t ip_info;
 	ESP_ERROR_CHECK(esp_netif_get_ip_info(esp_netif_get_handle_from_ifkey("WIFI_STA_DEF"), &ip_info));
 
-	// It is not possible to start two HTTP servers
-#if !CONFIG_SHUTTER_HTTP
 	/* Create HTTP Task */
 	char cparam0[64];
 	//sprintf(cparam0, "%s", ip4addr_ntoa(&ip_info.ip));
 	sprintf(cparam0, IPSTR, IP2STR(&ip_info.ip));
 	xTaskCreate(http_task, "HTTP", 1024*6, (void *)cparam0, 2, NULL);
-#endif
 
 #if CONFIG_FRAMESIZE_VGA
 	int framesize = FRAMESIZE_VGA;
@@ -534,9 +525,16 @@ void app_main(void)
 	sprintf(requestBuf.localFileName, "%s/picture.jpg", base_path);
 	ESP_LOGI(TAG, "localFileName=%s",requestBuf.localFileName);
 #if CONFIG_REMOTE_IS_FIXED_NAME
-	//sprintf(requestBuf.remoteFileName, "picture.jpg");
 #if CONFIG_REMOTE_FRAMESIZE
-	sprintf(requestBuf.remoteFileName, "%s_%s", CONFIG_FIXED_REMOTE_FILE, FRAMESIZE_STRING);
+    char baseFileName[64];
+    strcpy(baseFileName, CONFIG_FIXED_REMOTE_FILE);
+    for (int index=0;index<strlen(baseFileName);index++) {
+        if (baseFileName[index] == 0x2E) baseFileName[index] = 0;
+    }
+    ESP_LOGI(TAG, "baseFileName=[%s]", baseFileName);
+    // picture_640x480.jpg
+    sprintf(requestBuf.remoteFileName, "%s_%s.jpg", baseFileName, FRAMESIZE_STRING);
+	//sprintf(requestBuf.remoteFileName, "%s_%s", CONFIG_FIXED_REMOTE_FILE, FRAMESIZE_STRING);
 #else
 	sprintf(requestBuf.remoteFileName, "%s", CONFIG_FIXED_REMOTE_FILE);
 #endif
@@ -624,12 +622,10 @@ void app_main(void)
 		xQueueReceive(xQueueResponse, &responseBuf, portMAX_DELAY);
 		ESP_LOGI(TAG, "put to %s", responseBuf.response);
 
-#if !CONFIG_SHUTTER_HTTP
 		// send local file name to http task
 		if (xQueueSend(xQueueHttp, &httpBuf, 10) != pdPASS) {
 			ESP_LOGE(TAG, "xQueueSend xQueueHttp fail");
 		}
-#endif
 
 	} // end while	
 

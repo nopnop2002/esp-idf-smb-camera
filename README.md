@@ -7,6 +7,13 @@ This project use [SMB2/3 userspace client](https://github.com/sahlberg/libsmb2).
 ![slide-0001](https://user-images.githubusercontent.com/6020549/119617916-454eb280-be3d-11eb-8ba4-d898780ed01d.jpg)
 ![slide-0002](https://user-images.githubusercontent.com/6020549/119617924-45e74900-be3d-11eb-83ae-03dd86cfd407.jpg)
 
+# Hardware requirements
+ESP32-CAM Development board.   
+Support for OV2640 camera.   
+If you use other camera, edit sdkconfig.default.   
+![ESP32-CAM-1](https://user-images.githubusercontent.com/6020549/118466947-4fd2c300-b73e-11eb-8e64-23260e73e693.JPG)
+![ESP32-CAM-2](https://user-images.githubusercontent.com/6020549/118466960-53664a00-b73e-11eb-8950-a5058516e1a3.JPG)
+
 # Software requirements
 esp-idf v4.3 or later.   
 

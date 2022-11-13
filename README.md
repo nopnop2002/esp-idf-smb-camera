@@ -8,14 +8,13 @@ This project use [SMB2/3 userspace client](https://github.com/sahlberg/libsmb2).
 ![slide-0002](https://user-images.githubusercontent.com/6020549/119617924-45e74900-be3d-11eb-83ae-03dd86cfd407.jpg)
 
 # Hardware requirements
-ESP32-CAM Development board.   
-Support for OV2640 camera.   
+ESP32 development board with OV2640 camera.   
 If you use other camera, edit sdkconfig.default.   
-![ESP32-CAM-1](https://user-images.githubusercontent.com/6020549/118466947-4fd2c300-b73e-11eb-8e64-23260e73e693.JPG)
-![ESP32-CAM-2](https://user-images.githubusercontent.com/6020549/118466960-53664a00-b73e-11eb-8950-a5058516e1a3.JPG)
+![ESP32-Camera-board](https://user-images.githubusercontent.com/6020549/198520670-27ea9bd1-71d8-438f-be58-8516154be4af.JPG)
+
 
 # Software requirements
-esp-idf v4.3 or later.   
+esp-idf v4.4 or later.   
 
 # Installation
 Use a USB-TTL converter.   
@@ -69,7 +68,7 @@ Change GPIO0 to open and press the RESET button.
 Set the following items using menuconfig.
 
 ![config-main](https://user-images.githubusercontent.com/6020549/66692052-c17e9b80-ecd5-11e9-8316-075350ceb2e9.jpg)
-![config-app](https://user-images.githubusercontent.com/6020549/119619751-441e8500-be3f-11eb-858a-5a6ce8318d40.jpg)
+![config-app](https://user-images.githubusercontent.com/6020549/201548817-960220da-a6cf-4dab-8cc0-dc85bbc054cd.jpg)
 
 ## Wifi Setting
 
@@ -132,6 +131,11 @@ When this is enabled, FrameSize is added to remote file name like this.
 `20210520-165740_800x600.jpg`   
 
 ![config-filename-3](https://user-images.githubusercontent.com/6020549/119243501-529c4080-bba2-11eb-8ba4-85cdd764b0fc.jpg)
+
+
+## Select Board
+![config-board](https://user-images.githubusercontent.com/6020549/201548881-4c9d8ecb-4628-4e9a-8a46-1cf3d98458cd.jpg)
+
 
 ## Select Frame Size
 Large frame sizes take longer to take a picture.   

@@ -32,6 +32,7 @@
 #include "driver/gpio.h"
 
 #include "esp_camera.h"
+#include "camera_pin.h"
 
 #include "cmd.h"
 
@@ -53,54 +54,6 @@ QueueHandle_t xQueueSmtp;
 QueueHandle_t xQueueRequest;
 QueueHandle_t xQueueResponse;
 QueueHandle_t xQueueHttp;
-
-#define BOARD_ESP32CAM_AITHINKER
-
-// WROVER-KIT PIN Map
-#ifdef BOARD_WROVER_KIT
-
-#define CAM_PIN_PWDN -1  //power down is not used
-#define CAM_PIN_RESET -1 //software reset will be performed
-#define CAM_PIN_XCLK 21
-#define CAM_PIN_SIOD 26
-#define CAM_PIN_SIOC 27
-
-#define CAM_PIN_D7 35
-#define CAM_PIN_D6 34
-#define CAM_PIN_D5 39
-#define CAM_PIN_D4 36
-#define CAM_PIN_D3 19
-#define CAM_PIN_D2 18
-#define CAM_PIN_D1 5
-#define CAM_PIN_D0 4
-#define CAM_PIN_VSYNC 25
-#define CAM_PIN_HREF 23
-#define CAM_PIN_PCLK 22
-
-#endif
-
-// ESP32Cam (AiThinker) PIN Map
-#ifdef BOARD_ESP32CAM_AITHINKER
-
-#define CAM_PIN_PWDN 32
-#define CAM_PIN_RESET -1 //software reset will be performed
-#define CAM_PIN_XCLK 0
-#define CAM_PIN_SIOD 26
-#define CAM_PIN_SIOC 27
-
-#define CAM_PIN_D7 35
-#define CAM_PIN_D6 34
-#define CAM_PIN_D5 39
-#define CAM_PIN_D4 36
-#define CAM_PIN_D3 21
-#define CAM_PIN_D2 19
-#define CAM_PIN_D1 18
-#define CAM_PIN_D0 5
-#define CAM_PIN_VSYNC 25
-#define CAM_PIN_HREF 23
-#define CAM_PIN_PCLK 22
-
-#endif
 
 //static camera_config_t camera_config = {
 camera_config_t camera_config = {
@@ -524,9 +477,10 @@ void app_main(void)
 	requestBuf.taskHandle = xTaskGetCurrentTaskHandle();
 	sprintf(requestBuf.localFileName, "%s/picture.jpg", base_path);
 	ESP_LOGI(TAG, "localFileName=%s",requestBuf.localFileName);
+
 #if CONFIG_REMOTE_IS_FIXED_NAME
 #if CONFIG_REMOTE_FRAMESIZE
-    char baseFileName[64];
+    char baseFileName[32];
     strcpy(baseFileName, CONFIG_FIXED_REMOTE_FILE);
     for (int index=0;index<strlen(baseFileName);index++) {
         if (baseFileName[index] == 0x2E) baseFileName[index] = 0;
@@ -534,8 +488,8 @@ void app_main(void)
     ESP_LOGI(TAG, "baseFileName=[%s]", baseFileName);
     // picture_640x480.jpg
     sprintf(requestBuf.remoteFileName, "%s_%s.jpg", baseFileName, FRAMESIZE_STRING);
-	//sprintf(requestBuf.remoteFileName, "%s_%s", CONFIG_FIXED_REMOTE_FILE, FRAMESIZE_STRING);
 #else
+	// picture.jpg
 	sprintf(requestBuf.remoteFileName, "%s", CONFIG_FIXED_REMOTE_FILE);
 #endif
 	ESP_LOGI(TAG, "remoteFileName=%s",requestBuf.remoteFileName);
@@ -568,10 +522,12 @@ void app_main(void)
 		strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
 		ESP_LOGI(TAG, "The current date/time is: %s", strftime_buf);
 #if CONFIG_REMOTE_FRAMESIZE
+		// 20220927-110940_640x480.jpg
 		sprintf(requestBuf.remoteFileName, "%04d%02d%02d-%02d%02d%02d_%s.jpg",
 		(timeinfo.tm_year+1900),(timeinfo.tm_mon+1),timeinfo.tm_mday,
 		timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec, FRAMESIZE_STRING);
 #else
+		// 20220927-110742.jpg
 		sprintf(requestBuf.remoteFileName, "%04d%02d%02d-%02d%02d%02d.jpg",
 		(timeinfo.tm_year+1900),(timeinfo.tm_mon+1),timeinfo.tm_mday,
 		timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec);

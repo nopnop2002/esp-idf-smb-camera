@@ -17,7 +17,7 @@ If you use other camera, edit sdkconfig.default.
 esp-idf v4.4 or later.   
 
 # Installation
-Use a USB-TTL converter.   
+For AiThinker ESP32-CAM, You have to use a USB-TTL converter.   
 
 |ESP-32|USB-TTL|
 |:-:|:-:|
@@ -62,7 +62,7 @@ idf.py flash monitor
 ```
 
 # Start firmware
-Change GPIO0 to open and press the RESET button.
+For AiThinker ESP32-CAM, Change GPIO0 to open and press the RESET button.
 
 # Configuration
 Set the following items using menuconfig.

@@ -33,19 +33,19 @@ For AiThinker ESP32-CAM, You have to use a USB-TTL converter.
 git clone https://github.com/nopnop2002/esp-idf-smb-camera
 cd esp-idf-smb-camera
 git clone https://github.com/espressif/esp32-camera components/esp32-camera
-git clone https://github.com/sahlberg/libsmb2 components/libsmb2
+git clone -b v4.0.0 https://github.com/sahlberg/libsmb2 components/libsmb2
 idf.py set-target esp32
 idf.py menuconfig
 idf.py flash monitor
 ```
 
 
-# Installation for esp-idf v5.0.   
+# Installation for esp-idf v5.0 or higher.   
 ```
 git clone https://github.com/nopnop2002/esp-idf-smb-camera
 cd esp-idf-smb-camera
 git clone https://github.com/espressif/esp32-camera components/esp32-camera
-git clone https://github.com/sahlberg/libsmb2 components/libsmb2
+git clone -b v4.0.0 https://github.com/sahlberg/libsmb2 components/libsmb2
 vi components/libsmb2/lib/smb3-seal.c
 
 ---------------------------------------------------------------

@@ -46,16 +46,6 @@ git clone https://github.com/nopnop2002/esp-idf-smb-camera
 cd esp-idf-smb-camera
 git clone https://github.com/espressif/esp32-camera components/esp32-camera
 git clone https://github.com/sahlberg/libsmb2 components/libsmb2
-vi components/libsmb2/lib/smb3-seal.c
-
----------------------------------------------------------------
-#ifdef ESP_PLATFORM
-#include <esp_system.h>
-#include <sys/types.h>
-//#define random esp_random ---> Remove this
-#endif
----------------------------------------------------------------
-
 idf.py set-target esp32
 idf.py menuconfig
 idf.py flash monitor

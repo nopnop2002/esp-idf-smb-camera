@@ -14,7 +14,7 @@ If you use other camera, edit sdkconfig.default.
 
 
 # Software requirements
-esp-idf v4.4/v5.0.   
+esp-idf v4.4/v5.x.   
 
 # Installation
 For AiThinker ESP32-CAM, You have to use a USB-TTL converter.   

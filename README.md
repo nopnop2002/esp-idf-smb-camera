@@ -32,7 +32,6 @@ For AiThinker ESP32-CAM, You have to use a USB-TTL converter.
 ```
 git clone https://github.com/nopnop2002/esp-idf-smb-camera
 cd esp-idf-smb-camera
-git clone https://github.com/espressif/esp32-camera components/esp32-camera
 git clone https://github.com/sahlberg/libsmb2 components/libsmb2
 idf.py set-target esp32
 idf.py menuconfig

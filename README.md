@@ -10,7 +10,12 @@ This project use [SMB2/3 userspace client](https://github.com/sahlberg/libsmb2).
 # Hardware requirements
 ESP32 development board with OV2640 camera.   
 If you use other camera, edit sdkconfig.default.   
-![ESP32-Camera-board](https://user-images.githubusercontent.com/6020549/198520670-27ea9bd1-71d8-438f-be58-8516154be4af.JPG)
+From the left:   
+- Aithinker ESP32-CAM   
+- Freenove ESP32-WROVER CAM   
+- UICPAL ESPS3 CAM   
+
+![UICPAL-ESP32-S3-3](https://github.com/nopnop2002/esp-idf-smb-camera/assets/6020549/fdb809fc-7815-42fd-ba9b-df4c62abe458)
 
 
 # Software requirements
@@ -111,7 +116,7 @@ When this is enabled, FrameSize is added to remote file name like this.
 
 
 ## Select Board
-![config-board](https://user-images.githubusercontent.com/6020549/201548881-4c9d8ecb-4628-4e9a-8a46-1cf3d98458cd.jpg)
+![config-board](https://github.com/nopnop2002/esp-idf-smb-camera/assets/6020549/5a19cc82-d53a-45ed-9ebf-530f884fe8b2)
 
 
 ## Select Frame Size

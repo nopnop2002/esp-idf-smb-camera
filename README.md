@@ -14,8 +14,9 @@ From the left:
 - Aithinker ESP32-CAM   
 - Freenove ESP32-WROVER CAM   
 - UICPAL ESPS3 CAM   
+- Freenove ESP32S3-WROVER CAM (Clone)   
 
-![UICPAL-ESP32-S3-3](https://github.com/nopnop2002/esp-idf-smb-camera/assets/6020549/fdb809fc-7815-42fd-ba9b-df4c62abe458)
+![es32-camera](https://github.com/nopnop2002/esp-idf-websocket-camera/assets/6020549/38dbef9a-ed85-4df2-8d22-499b2b497278)
 
 
 # Software requirements
@@ -173,11 +174,15 @@ You can use this command as shutter.
 
 ![config-shutter-5](https://user-images.githubusercontent.com/6020549/193154996-4d783d74-6e24-482a-9ebc-681bc40cf570.jpg)
 
-## Flash Light
-
+## Flash Light   
 ESP32-CAM by AI-Thinker have flash light on GPIO4.   
 
 ![config-flash](https://user-images.githubusercontent.com/6020549/122480398-bf6ef300-d007-11eb-929e-88a5b9aa994f.jpg)
+
+## PSRAM   
+When you use ESP32S3-WROVER CAM, you need to set the PSRAM type.   
+
+![config-psram](https://github.com/nopnop2002/esp-idf-websocket-camera/assets/6020549/ba04f088-c628-46ac-bc5b-2968032753e0)
 
 # Built-in WEB Server
 ESP32 works as a web server.   

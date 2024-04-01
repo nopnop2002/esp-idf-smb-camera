@@ -131,7 +131,11 @@ Large frame sizes take longer to take a picture.
 You can choose one of the following shutter methods
 
 - Shutter is the Enter key on the keyboard   
-For operation check
+ For operation check.   
+ When using the USB port provided by the USB Serial/JTAG Controller Console, you need to enable the following line in sdkconfig.
+ ```
+ CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+ ```
 
 ![config-shutter-1](https://user-images.githubusercontent.com/6020549/193154988-0de5f305-7bdb-4d05-8a74-8760b39a0161.jpg)
 

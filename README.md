@@ -39,7 +39,7 @@ For AiThinker ESP32-CAM, you need to use a USB-TTL converter and connect GPIO0 t
 ```
 git clone https://github.com/nopnop2002/esp-idf-smb-camera
 cd esp-idf-smb-camera
-git clone https://github.com/sahlberg/libsmb2 components/libsmb2
+git clone https://github.com/sahlberg/libsmb2 -b libsmb2-6.1 components/libsmb2
 cp esp-idf/CMakeLists.txt components/libsmb2/
 idf.py set-target {esp32/esp32s3}
 idf.py menuconfig
@@ -170,8 +170,9 @@ ESP32-CAM by AI-Thinker have flash light on GPIO4.
 ![config-flash](https://user-images.githubusercontent.com/6020549/122480398-bf6ef300-d007-11eb-929e-88a5b9aa994f.jpg)
 
 ## PSRAM   
-When you use ESP32S3-WROVER CAM, you need to set the PSRAM type.   
-
+When using ESP32S3, you need to set the PSRAM type according to the hardware.   
+ESP32S3-WROVER CAM has Octal Mode PSRAM.   
+UICPAL ESPS3 CAM  has Quad Mode PSRAM.   
 ![config-psram](https://github.com/nopnop2002/esp-idf-websocket-camera/assets/6020549/ba04f088-c628-46ac-bc5b-2968032753e0)
 
 # Built-in WEB Server

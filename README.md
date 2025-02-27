@@ -1,8 +1,8 @@
 # esp-idf-smb-camera
 Take a picture and Publish it via SMB.   
 You can access a picture using Windows shared folder.   
-This project use [ESP32 Camera Driver](https://components.espressif.com/components/espressif/esp32-camera).   
-This project use [SMB2/3 userspace client](https://github.com/sahlberg/libsmb2).   
+This project use [this](https://components.espressif.com/components/espressif/esp32-camera) Camera Driver.   
+This project use [this](https://github.com/sahlberg/libsmb2) SMB2/3 userspace client.   
 
 ![slide-0001](https://user-images.githubusercontent.com/6020549/119617916-454eb280-be3d-11eb-8ba4-d898780ed01d.jpg)
 ![slide-0002](https://user-images.githubusercontent.com/6020549/119617924-45e74900-be3d-11eb-83ae-03dd86cfd407.jpg)

@@ -150,6 +150,8 @@ You can choose one of the following shutter methods
 
 - Shutter is UDP Socket   
 	ESP32 acts as a UDP listener and listens for requests from UDP clients.   
+	You can use this command as shutter.   
+	`echo -n "take" | socat - UDP-DATAGRAM:255.255.255.255:49876,broadcast`   
 	You can use udp_send.py as shutter.   
 	Requires netifaces.   
 	`python3 ./udp_send.py`

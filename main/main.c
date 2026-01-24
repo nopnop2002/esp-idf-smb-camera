@@ -135,8 +135,7 @@ static esp_err_t camera_capture(char * FileName, size_t *pictureSize)
 	return ESP_OK;
 }
 
-static void event_handler(void* arg, esp_event_base_t event_base,
-								int32_t event_id, void* event_data)
+static void event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
 	if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
 		esp_wifi_connect();
@@ -227,7 +226,7 @@ esp_err_t wifi_init_sta()
 	};
 	ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
 	ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-	ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
+	ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
 	ESP_ERROR_CHECK(esp_wifi_start());
 
 	/* Waiting until either the connection is established (WIFI_CONNECTED_BIT) or connection failed for the maximum
@@ -379,13 +378,9 @@ void app_main(void)
 	initialise_mdns();
 
 #if CONFIG_REMOTE_IS_VARIABLE_NAME
-	// obtain time over NTP
+	// Obtain time over NTP
 	ESP_LOGI(TAG, "Connecting to WiFi and getting time over NTP.");
-	ret = obtain_time();
-	if(ret != ESP_OK) {
-		ESP_LOGE(TAG, "Fail to getting time over NTP.");
-		return;
-	}
+	ESP_ERROR_CHECK(obtain_time());
 
 	// update 'now' variable with current time
 	time_t now;
@@ -402,8 +397,7 @@ void app_main(void)
 	ESP_LOGI(TAG, "Initializing SPIFFS");
 	char *partition_label = "storage";
 	char *base_path = "/spiffs";
-	ret = mountSPIFFS(partition_label, base_path);
-	if (ret != ESP_OK) return;
+	ESP_ERROR_CHECK(mountSPIFFS(partition_label, base_path));
 
 #if CONFIG_ENABLE_FLASH
 	// Enable Flash Light
